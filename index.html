@@ -87,9 +87,8 @@
           <p class="eyebrow">Senin – Jumat</p>
           <h2>Jadwal Pelajaran</h2>
         </div>
-        <button class="btn btn-primary" id="btnAddSchedule">+ Tambah Jam Pelajaran</button>
       </div>
-      <p class="section-desc">Jadwal masih kosong dan bisa diisi bersama-sama. Klik ikon pensil pada tiap baris untuk mengubah, atau tombol di atas untuk menambah baris baru — perubahan langsung tersimpan dan terlihat oleh semua orang.</p>
+      <p class="section-desc">Jadwal ini diatur langsung lewat kode (<code>app.js</code>) oleh admin/wali kelas, sehingga tidak ada tombol tambah/ubah di halaman ini.</p>
 
       <div class="schedule-tabs" id="scheduleTabs"></div>
       <div class="schedule-wrap" id="scheduleWrap"></div>
@@ -127,13 +126,7 @@
         </div>
       </div>
 
-      <div class="teacher-card">
-        <div class="avatar avatar-teacher">SR</div>
-        <div>
-          <p class="label-sm">Wali Kelas</p>
-          <h3>Sugeng Riyadi, S.Kom., Gr.</h3>
-        </div>
-      </div>
+      <div class="teacher-card" id="teacherCard"></div>
 
       <div class="student-list" id="studentList"></div>
     </div>
