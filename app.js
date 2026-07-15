@@ -44,19 +44,19 @@ const STUDENTS = [
    ========================================================= */
 const SCHEDULE = {
   Senin: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal },
+    { time: "07.30–08.00", subject: "Contoh Jadwal" },
   ],
   Selasa: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal },
+    { time: "07.30–08.00", subject: "Contoh Jadwal" },
   ],
   Rabu: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal },
+    { time: "07.30–08.00", subject: "Contoh Jadwal" },
   ],
   Kamis: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal },
+    { time: "07.30–08.00", subject: "Contoh Jadwal" },
   ],
   Jumat: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal },
+    { time: "07.30–08.00", subject: "Contoh Jadwal" },
   ],
 };
 
