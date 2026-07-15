@@ -6,24 +6,59 @@
    Pastikan firebase-config.js sudah diisi sebelum file ini jalan.
    ========================================================= */
 
+/* =========================================================
+   FOTO — DIATUR LEWAT SCRIPT INI SAJA
+   Isi `photo` dengan URL foto (contoh: "foto/nama-file.jpg" atau
+   link https://...). Kosongkan ("") kalau belum ada foto —
+   otomatis akan ditampilkan inisial nama sebagai gantinya.
+   ========================================================= */
+const TEACHER = {
+  name: "Sugeng Riyadi, S.Kom., Gr.",
+  role: "Wali Kelas",
+  photo: "paksugeng.png"
+};
+
 const STUDENTS = [
-  "Chaerul Risyad Ferdiansyah",
-  "Ahmad Abdullah Hafi Munaji",
-  "Ahmad Faeyza Rafa",
-  "Al Ghazali Fahran",
-  "Alkhaliifi Hasyimi",
-  "Almer Abrisam Dzaky Noor",
-  "Faalih Arkaan",
-  "Hafidz Alfatih Hermanto",
-  "Handanu Indrafaza Styawan",
-  "Muhammad Abdurrahman Dzaki",
-  "Muhammad Alfindra Auvar Rahardja",
-  "Muhammad Asyraf Al Farisi",
-  "Muhammad El Junot Razqal",
-  "Muhammad Faqih Ramadhan",
-  "Muhammad Hafidz Setiadi",
-  "Muhammad Zharif Syatir",
+  { name: "Chaerul Risyad Ferdiansyah", photo: "" },
+  { name: "Ahmad Abdullah Hafi Munaji", photo: "" },
+  { name: "Ahmad Faeyza Rafa", photo: "" },
+  { name: "Al Ghazali Fahran", photo: "" },
+  { name: "Alkhaliifi Hasyimi", photo: "" },
+  { name: "Almer Abrisam Dzaky Noor", photo: "" },
+  { name: "Faalih Arkaan", photo: "" },
+  { name: "Hafidz Alfatih Hermanto", photo: "" },
+  { name: "Handanu Indrafaza Styawan", photo: "" },
+  { name: "Muhammad Abdurrahman Dzaki", photo: "" },
+  { name: "Muhammad Alfindra Auvar Rahardja", photo: "" },
+  { name: "Muhammad Asyraf Al Farisi", photo: "" },
+  { name: "Muhammad El Junot Razqal", photo: "" },
+  { name: "Muhammad Faqih Ramadhan", photo: "" },
+  { name: "Muhammad Hafidz Setiadi", photo: "" },
+  { name: "Muhammad Zharif Syatir", photo: "" },
 ];
+
+/* =========================================================
+   JADWAL PELAJARAN — DIATUR LEWAT SCRIPT INI SAJA
+   Tidak ada tombol tambah/ubah di halaman; edit langsung di sini
+   lalu upload ulang file app.js kalau ada perubahan jadwal.
+   ========================================================= */
+const SCHEDULE = {
+  Senin: [
+    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+  ],
+  Selasa: [
+    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+  ],
+  Rabu: [
+    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+  ],
+  Kamis: [
+    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+  ],
+  Jumat: [
+    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+  ],
+};
 
 const DAYS = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
 
@@ -52,7 +87,6 @@ function daysLeftLabel(iso){
 /* ===== Local mirror of cloud data (diisi otomatis oleh listener Firestore) ===== */
 let announcements = [];
 let tasks = [];
-let schedule = { Senin: [], Selasa: [], Rabu: [], Kamis: [], Jumat: [] };
 let gallery = [];
 
 let activeDay = DAYS[(new Date().getDay() >= 1 && new Date().getDay() <= 5) ? new Date().getDay() - 1 : 0];
@@ -154,12 +188,11 @@ document.getElementById("btnAddAnnouncement").addEventListener("click", openAnno
    FIRESTORE: JADWAL  (collection: "schedule", 1 dokumen per hari)
    Dokumen kosong sampai ada yang menambahkan jam pelajaran.
    ========================================================= */
-DAYS.forEach(day => {
-  db.collection("schedule").doc(day).onSnapshot((doc) => {
-    schedule[day] = doc.exists ? (doc.data().rows || []) : [];
-    if (day === activeDay) renderSchedule();
-  }, () => showToast("Gagal memuat jadwal: cek konfigurasi Firebase"));
-});
+/* =========================================================
+   JADWAL PELAJARAN — render langsung dari konstanta SCHEDULE
+   (tidak tersambung ke Firestore, hanya bisa diubah lewat kode)
+   ========================================================= */
+let schedule = SCHEDULE;
 
 function renderScheduleTabs(){
   const tabs = document.getElementById("scheduleTabs");
@@ -179,69 +212,16 @@ function renderSchedule(){
   const wrap = document.getElementById("scheduleWrap");
   const rows = schedule[activeDay] || [];
   if (!rows.length){
-    wrap.innerHTML = `<p class="empty-note" style="padding:1rem;">Jadwal hari ${activeDay} masih kosong. Klik "+ Tambah Jam Pelajaran" untuk mengisinya.</p>`;
+    wrap.innerHTML = `<p class="empty-note" style="padding:1rem;">Belum ada jadwal untuk hari ${activeDay}.</p>`;
     return;
   }
-  wrap.innerHTML = rows.map((r, i) => `
+  wrap.innerHTML = rows.map(r => `
     <div class="schedule-row">
       <span class="schedule-time">${escapeHTML(r.time)}</span>
       <span class="schedule-subject">${escapeHTML(r.subject)}</span>
-      <button class="schedule-edit" data-edit="${i}" title="Ubah">✏️</button>
     </div>
   `).join("");
-  wrap.querySelectorAll("[data-edit]").forEach(btn => {
-    btn.addEventListener("click", () => openScheduleForm({ index: Number(btn.getAttribute("data-edit")) }));
-  });
 }
-
-async function saveScheduleRows(rows){
-  await db.collection("schedule").doc(activeDay).set({ rows });
-}
-
-function openScheduleForm({ index = null } = {}){
-  const editing = index !== null;
-  const row = editing ? schedule[activeDay][index] : { time: "", subject: "" };
-  openModal(editing ? `Ubah Jadwal — ${activeDay}` : `Tambah Jam Pelajaran — ${activeDay}`, `
-    <div class="form-group">
-      <label>Jam Pelajaran</label>
-      <input type="text" id="fTime" value="${escapeAttr(row.time)}" placeholder="Contoh: 07.00–08.20">
-    </div>
-    <div class="form-group">
-      <label>Mata Pelajaran</label>
-      <input type="text" id="fSubject" value="${escapeAttr(row.subject)}" placeholder="Contoh: Matematika">
-    </div>
-    <div class="modal-actions">
-      ${editing ? `<button class="btn btn-secondary" id="fDelete">Hapus Baris</button>` : `<button class="btn btn-secondary" id="fCancel">Batal</button>`}
-      <button class="btn btn-primary" id="fSave">Simpan</button>
-    </div>
-  `, (body) => {
-    if (body.querySelector("#fCancel")) body.querySelector("#fCancel").addEventListener("click", closeModal);
-    body.querySelector("#fSave").addEventListener("click", async () => {
-      const time = body.querySelector("#fTime").value.trim();
-      const subject = body.querySelector("#fSubject").value.trim();
-      if (!time || !subject){ showToast("Jam dan mata pelajaran wajib diisi"); return; }
-      const rows = (schedule[activeDay] || []).slice();
-      if (editing) rows[index] = { time, subject };
-      else rows.push({ time, subject });
-      try{
-        await saveScheduleRows(rows);
-        closeModal();
-        showToast(editing ? "Jadwal diperbarui" : "Jam pelajaran ditambahkan");
-      }catch(e){ showToast("Gagal menyimpan. Cek konfigurasi Firebase"); }
-    });
-    if (body.querySelector("#fDelete")){
-      body.querySelector("#fDelete").addEventListener("click", async () => {
-        const rows = (schedule[activeDay] || []).slice();
-        rows.splice(index, 1);
-        await saveScheduleRows(rows);
-        closeModal();
-        showToast("Baris jadwal dihapus");
-      });
-    }
-  });
-}
-
-document.getElementById("btnAddSchedule").addEventListener("click", () => openScheduleForm({}));
 
 /* =========================================================
    FIRESTORE: TUGAS & UJIAN  (collection: "tasks")
@@ -346,15 +326,35 @@ document.getElementById("filterRow").addEventListener("click", (e) => {
 });
 
 /* =========================================================
-   DAFTAR SISWA (statis, sesuai PRD — tidak perlu database)
+   WALI KELAS & DAFTAR SISWA (statis, sesuai PRD — foto diatur lewat script)
    ========================================================= */
+function avatarInnerHTML(name, photo){
+  if (photo && photo.trim()){
+    return `<img src="${escapeAttr(photo)}" alt="Foto ${escapeAttr(name)}" onerror="this.parentElement.innerHTML='${initials(name)}'">`;
+  }
+  return initials(name);
+}
+
+function renderTeacher(){
+  const el = document.getElementById("teacherCard");
+  el.innerHTML = `
+    <span class="avatar" style="width:64px;height:64px;font-size:1.15rem;">${avatarInnerHTML(TEACHER.name, TEACHER.photo)}</span>
+    <div>
+      <p class="label-sm">${escapeHTML(TEACHER.role)}</p>
+      <h3>${escapeHTML(TEACHER.name)}</h3>
+    </div>
+  `;
+}
+
 function renderStudents(){
   const list = document.getElementById("studentList");
-  list.innerHTML = STUDENTS.map((name, i) => `
+  list.innerHTML = STUDENTS.map((s, i) => `
     <div class="student-item">
-      <span class="student-no">${i + 1}.</span>
-      <span class="avatar avatar-student">${initials(name)}</span>
-      <span class="student-name">${escapeHTML(toTitleCase(name))}</span>
+      <span class="avatar" style="width:64px;height:64px;font-size:1.05rem;">
+        <span class="student-no">${i + 1}</span>
+        ${avatarInnerHTML(s.name, s.photo)}
+      </span>
+      <span class="student-name">${escapeHTML(toTitleCase(s.name))}</span>
     </div>
   `).join("");
 }
@@ -457,4 +457,6 @@ function escapeAttr(str = ""){ return escapeHTML(str); }
 
 /* ===== Init (bagian yang tidak butuh data cloud) ===== */
 renderScheduleTabs();
+renderSchedule();
+renderTeacher();
 renderStudents();
