@@ -1,10 +1,10 @@
 /* =========================================================
    Kelas VII Bilal bin Rabbah — app.js
-   Tanpa login: semua orang bisa lihat & tambah data.
-   Data disimpan di localStorage browser masing-masing perangkat.
+   Tanpa login. Data disimpan di Firebase (Firestore + Storage)
+   sehingga pengumuman, tugas, jadwal, dan foto yang ditambahkan
+   satu orang langsung terlihat oleh semua orang lain.
+   Pastikan firebase-config.js sudah diisi sebelum file ini jalan.
    ========================================================= */
-
-const STORAGE_KEY = "kelas7bilal_v1";
 
 const STUDENTS = [
   "Chaerul Risyad Ferdiansyah",
@@ -27,66 +27,6 @@ const STUDENTS = [
 
 const DAYS = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
 
-const DEFAULT_SCHEDULE = {
-  Senin: [
-    { time: "07.00–08.20", subject: "Upacara & Tahfidz" },
-    { time: "08.20–09.40", subject: "Matematika" },
-    { time: "09.55–11.15", subject: "Bahasa Indonesia" },
-    { time: "12.45–14.05", subject: "IPA" },
-  ],
-  Selasa: [
-    { time: "07.00–08.20", subject: "PAI" },
-    { time: "08.20–09.40", subject: "Bahasa Inggris" },
-    { time: "09.55–11.15", subject: "IPS" },
-    { time: "12.45–14.05", subject: "PJOK" },
-  ],
-  Rabu: [
-    { time: "07.00–08.20", subject: "Matematika" },
-    { time: "08.20–09.40", subject: "IPA" },
-    { time: "09.55–11.15", subject: "Bahasa Arab" },
-    { time: "12.45–14.05", subject: "Seni Budaya" },
-  ],
-  Kamis: [
-    { time: "07.00–08.20", subject: "Bahasa Indonesia" },
-    { time: "08.20–09.40", subject: "Matematika" },
-    { time: "09.55–11.15", subject: "PAI" },
-    { time: "12.45–14.05", subject: "Prakarya" },
-  ],
-  Jumat: [
-    { time: "07.00–08.20", subject: "Tahfidz & Muhadatsah" },
-    { time: "08.20–09.40", subject: "PPKn" },
-    { time: "09.55–11.15", subject: "IPS" },
-  ],
-};
-
-const DEFAULT_ANNOUNCEMENTS = [
-  {
-    id: "a1",
-    title: "Selamat Datang di Website Kelas!",
-    body: "Semua siswa, guru, dan wali murid bisa langsung menambahkan pengumuman, tugas, jadwal, maupun foto di sini tanpa perlu login.",
-    date: todayLabel(),
-  },
-];
-
-const DEFAULT_TASKS = [
-  {
-    id: "t1",
-    subject: "Matematika",
-    title: "Latihan Soal Bilangan Bulat",
-    desc: "Kerjakan halaman 24–26, dikumpulkan lewat buku tugas.",
-    deadline: addDays(5),
-    status: "berjalan",
-  },
-  {
-    id: "t2",
-    subject: "IPA",
-    title: "Laporan Praktikum Ekosistem",
-    desc: "Tulis tangan, minimal 2 halaman.",
-    deadline: addDays(2),
-    status: "berjalan",
-  },
-];
-
 function todayLabel(){
   return new Date().toLocaleDateString("id-ID", { day:"numeric", month:"short", year:"numeric" });
 }
@@ -108,27 +48,14 @@ function daysLeftLabel(iso){
   if (diff === 1) return "Besok";
   return `${diff} hari lagi`;
 }
-function uid(){ return Math.random().toString(36).slice(2, 9); }
 
-/* ===== State & persistence ===== */
-function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  }catch(e){ console.warn("Gagal memuat data lokal", e); }
-  return {
-    announcements: DEFAULT_ANNOUNCEMENTS,
-    tasks: DEFAULT_TASKS,
-    schedule: DEFAULT_SCHEDULE,
-    gallery: [],
-  };
-}
-function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
+/* ===== Local mirror of cloud data (diisi otomatis oleh listener Firestore) ===== */
+let announcements = [];
+let tasks = [];
+let schedule = { Senin: [], Selasa: [], Rabu: [], Kamis: [], Jumat: [] };
+let gallery = [];
 
-let state = loadState();
-let activeDay = DAYS[new Date().getDay() >= 1 && new Date().getDay() <= 5 ? new Date().getDay() - 1 : 0];
+let activeDay = DAYS[(new Date().getDay() >= 1 && new Date().getDay() <= 5) ? new Date().getDay() - 1 : 0];
 let activeFilter = "semua";
 
 /* ===== Toast ===== */
@@ -151,36 +78,37 @@ function openModal(title, bodyHTML, onMount){
   modalBackdrop.classList.add("open");
   if (onMount) onMount(modalBody);
 }
-function closeModal(){
-  modalBackdrop.classList.remove("open");
-}
+function closeModal(){ modalBackdrop.classList.remove("open"); }
 document.getElementById("modalClose").addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", (e) => { if (e.target === modalBackdrop) closeModal(); });
 
 /* =========================================================
-   PENGUMUMAN
+   FIRESTORE: PENGUMUMAN  (collection: "announcements")
    ========================================================= */
+db.collection("announcements").orderBy("createdAt", "desc")
+  .onSnapshot((snap) => {
+    announcements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderAnnouncements();
+  }, () => showToast("Gagal memuat pengumuman: cek konfigurasi Firebase"));
+
 function renderAnnouncements(){
   const list = document.getElementById("announcementList");
-  if (!state.announcements.length){
+  if (!announcements.length){
     list.innerHTML = `<p class="empty-note">Belum ada pengumuman. Jadilah yang pertama menambahkan!</p>`;
     return;
   }
-  list.innerHTML = state.announcements
-    .slice()
-    .reverse()
-    .map(a => `
-      <div class="announcement-item">
-        <div class="a-body">
-          <strong>${escapeHTML(a.title)}</strong>
-          <p>${escapeHTML(a.body)}</p>
-        </div>
-        <div class="item-actions">
-          <span class="a-date">${a.date}</span>
-          <button class="icon-btn" data-del-announcement="${a.id}" title="Hapus">✕</button>
-        </div>
+  list.innerHTML = announcements.map(a => `
+    <div class="announcement-item">
+      <div class="a-body">
+        <strong>${escapeHTML(a.title)}</strong>
+        <p>${escapeHTML(a.body || "")}</p>
       </div>
-    `).join("");
+      <div class="item-actions">
+        <span class="a-date">${escapeHTML(a.date || "")}</span>
+        <button class="icon-btn" data-del-announcement="${a.id}" title="Hapus">✕</button>
+      </div>
+    </div>
+  `).join("");
 }
 
 function openAnnouncementForm(){
@@ -199,28 +127,40 @@ function openAnnouncementForm(){
     </div>
   `, (body) => {
     body.querySelector("#fCancel").addEventListener("click", closeModal);
-    body.querySelector("#fSave").addEventListener("click", () => {
+    body.querySelector("#fSave").addEventListener("click", async () => {
       const title = body.querySelector("#fTitle").value.trim();
       const text = body.querySelector("#fBody").value.trim();
       if (!title){ showToast("Judul pengumuman wajib diisi"); return; }
-      state.announcements.push({ id: uid(), title, body: text, date: todayLabel() });
-      saveState(); renderAnnouncements(); closeModal();
-      showToast("Pengumuman berhasil ditambahkan");
+      try{
+        await db.collection("announcements").add({
+          title, body: text, date: todayLabel(),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        closeModal();
+        showToast("Pengumuman berhasil ditambahkan");
+      }catch(e){ showToast("Gagal menyimpan. Cek konfigurasi Firebase"); }
     });
   });
 }
 
-document.getElementById("announcementList").addEventListener("click", (e) => {
+document.getElementById("announcementList").addEventListener("click", async (e) => {
   const id = e.target.getAttribute("data-del-announcement");
   if (!id) return;
-  state.announcements = state.announcements.filter(a => a.id !== id);
-  saveState(); renderAnnouncements();
+  await db.collection("announcements").doc(id).delete();
 });
 document.getElementById("btnAddAnnouncement").addEventListener("click", openAnnouncementForm);
 
 /* =========================================================
-   JADWAL PELAJARAN
+   FIRESTORE: JADWAL  (collection: "schedule", 1 dokumen per hari)
+   Dokumen kosong sampai ada yang menambahkan jam pelajaran.
    ========================================================= */
+DAYS.forEach(day => {
+  db.collection("schedule").doc(day).onSnapshot((doc) => {
+    schedule[day] = doc.exists ? (doc.data().rows || []) : [];
+    if (day === activeDay) renderSchedule();
+  }, () => showToast("Gagal memuat jadwal: cek konfigurasi Firebase"));
+});
+
 function renderScheduleTabs(){
   const tabs = document.getElementById("scheduleTabs");
   tabs.innerHTML = DAYS.map(d => `
@@ -237,9 +177,9 @@ function renderScheduleTabs(){
 
 function renderSchedule(){
   const wrap = document.getElementById("scheduleWrap");
-  const rows = state.schedule[activeDay] || [];
+  const rows = schedule[activeDay] || [];
   if (!rows.length){
-    wrap.innerHTML = `<p class="empty-note" style="padding:1rem;">Belum ada jadwal untuk hari ${activeDay}.</p>`;
+    wrap.innerHTML = `<p class="empty-note" style="padding:1rem;">Jadwal hari ${activeDay} masih kosong. Klik "+ Tambah Jam Pelajaran" untuk mengisinya.</p>`;
     return;
   }
   wrap.innerHTML = rows.map((r, i) => `
@@ -250,13 +190,18 @@ function renderSchedule(){
     </div>
   `).join("");
   wrap.querySelectorAll("[data-edit]").forEach(btn => {
-    btn.addEventListener("click", () => openScheduleEditForm(Number(btn.getAttribute("data-edit"))));
+    btn.addEventListener("click", () => openScheduleForm({ index: Number(btn.getAttribute("data-edit")) }));
   });
 }
 
-function openScheduleEditForm(index){
-  const row = state.schedule[activeDay][index];
-  openModal(`Ubah Jadwal — ${activeDay}`, `
+async function saveScheduleRows(rows){
+  await db.collection("schedule").doc(activeDay).set({ rows });
+}
+
+function openScheduleForm({ index = null } = {}){
+  const editing = index !== null;
+  const row = editing ? schedule[activeDay][index] : { time: "", subject: "" };
+  openModal(editing ? `Ubah Jadwal — ${activeDay}` : `Tambah Jam Pelajaran — ${activeDay}`, `
     <div class="form-group">
       <label>Jam Pelajaran</label>
       <input type="text" id="fTime" value="${escapeAttr(row.time)}" placeholder="Contoh: 07.00–08.20">
@@ -266,55 +211,65 @@ function openScheduleEditForm(index){
       <input type="text" id="fSubject" value="${escapeAttr(row.subject)}" placeholder="Contoh: Matematika">
     </div>
     <div class="modal-actions">
-      <button class="btn btn-secondary" id="fDelete">Hapus Baris</button>
+      ${editing ? `<button class="btn btn-secondary" id="fDelete">Hapus Baris</button>` : `<button class="btn btn-secondary" id="fCancel">Batal</button>`}
       <button class="btn btn-primary" id="fSave">Simpan</button>
     </div>
   `, (body) => {
-    body.querySelector("#fSave").addEventListener("click", () => {
+    if (body.querySelector("#fCancel")) body.querySelector("#fCancel").addEventListener("click", closeModal);
+    body.querySelector("#fSave").addEventListener("click", async () => {
       const time = body.querySelector("#fTime").value.trim();
       const subject = body.querySelector("#fSubject").value.trim();
       if (!time || !subject){ showToast("Jam dan mata pelajaran wajib diisi"); return; }
-      state.schedule[activeDay][index] = { time, subject };
-      saveState(); renderSchedule(); closeModal();
-      showToast("Jadwal diperbarui");
+      const rows = (schedule[activeDay] || []).slice();
+      if (editing) rows[index] = { time, subject };
+      else rows.push({ time, subject });
+      try{
+        await saveScheduleRows(rows);
+        closeModal();
+        showToast(editing ? "Jadwal diperbarui" : "Jam pelajaran ditambahkan");
+      }catch(e){ showToast("Gagal menyimpan. Cek konfigurasi Firebase"); }
     });
-    body.querySelector("#fDelete").addEventListener("click", () => {
-      state.schedule[activeDay].splice(index, 1);
-      saveState(); renderSchedule(); closeModal();
-      showToast("Baris jadwal dihapus");
-    });
+    if (body.querySelector("#fDelete")){
+      body.querySelector("#fDelete").addEventListener("click", async () => {
+        const rows = (schedule[activeDay] || []).slice();
+        rows.splice(index, 1);
+        await saveScheduleRows(rows);
+        closeModal();
+        showToast("Baris jadwal dihapus");
+      });
+    }
   });
 }
 
-document.getElementById("btnResetJadwal").addEventListener("click", () => {
-  if (!confirm("Kembalikan jadwal hari ini ke pengaturan awal?")) return;
-  state.schedule[activeDay] = JSON.parse(JSON.stringify(DEFAULT_SCHEDULE[activeDay] || []));
-  saveState(); renderSchedule();
-  showToast("Jadwal dikembalikan ke awal");
-});
+document.getElementById("btnAddSchedule").addEventListener("click", () => openScheduleForm({}));
 
 /* =========================================================
-   TUGAS & UJIAN
+   FIRESTORE: TUGAS & UJIAN  (collection: "tasks")
    ========================================================= */
+db.collection("tasks").orderBy("deadline", "asc")
+  .onSnapshot((snap) => {
+    tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderTasks();
+  }, () => showToast("Gagal memuat tugas: cek konfigurasi Firebase"));
+
 function renderTasks(){
   const list = document.getElementById("taskList");
-  let tasks = state.tasks.slice();
-  if (activeFilter !== "semua") tasks = tasks.filter(t => t.status === activeFilter);
-  tasks.sort((a,b) => a.deadline.localeCompare(b.deadline));
+  let items = tasks.slice();
+  if (activeFilter !== "semua") items = items.filter(t => t.status === activeFilter);
 
-  if (!tasks.length){
+  if (!items.length){
     list.innerHTML = `<p class="empty-note">Tidak ada tugas untuk filter ini.</p>`;
     return;
   }
 
-  list.innerHTML = tasks.map(t => `
+  list.innerHTML = items.map(t => `
     <div class="task-card">
       <div class="task-top">
         <span class="task-subject">${escapeHTML(t.subject)}</span>
         <span class="status-pill ${t.status}">${t.status === "selesai" ? "Selesai" : "Berjalan"}</span>
       </div>
       <div class="task-title">${escapeHTML(t.title)}</div>
-      <div class="task-desc">${escapeHTML(t.desc)}</div>
+      <div class="task-desc">${escapeHTML(t.desc || "")}</div>
       <div class="task-foot">
         <span class="deadline ${t.status === "selesai" ? "done" : ""}">
           ${formatDate(t.deadline)} · ${t.status === "selesai" ? "Selesai" : daysLeftLabel(t.deadline)}
@@ -352,30 +307,30 @@ function openTaskForm(){
     </div>
   `, (body) => {
     body.querySelector("#fCancel").addEventListener("click", closeModal);
-    body.querySelector("#fSave").addEventListener("click", () => {
+    body.querySelector("#fSave").addEventListener("click", async () => {
       const subject = body.querySelector("#fSubject").value.trim();
       const title = body.querySelector("#fTitle").value.trim();
       const desc = body.querySelector("#fDesc").value.trim();
       const deadline = body.querySelector("#fDeadline").value;
       if (!subject || !title || !deadline){ showToast("Mata pelajaran, nama tugas, dan tenggat wajib diisi"); return; }
-      state.tasks.push({ id: uid(), subject, title, desc, deadline, status: "berjalan" });
-      saveState(); renderTasks(); closeModal();
-      showToast("Tugas berhasil ditambahkan");
+      try{
+        await db.collection("tasks").add({ subject, title, desc, deadline, status: "berjalan" });
+        closeModal();
+        showToast("Tugas berhasil ditambahkan");
+      }catch(e){ showToast("Gagal menyimpan. Cek konfigurasi Firebase"); }
     });
   });
 }
 
-document.getElementById("taskList").addEventListener("click", (e) => {
+document.getElementById("taskList").addEventListener("click", async (e) => {
   const toggleId = e.target.getAttribute("data-toggle");
   const delId = e.target.getAttribute("data-del-task");
   if (toggleId){
-    const t = state.tasks.find(x => x.id === toggleId);
-    t.status = t.status === "selesai" ? "berjalan" : "selesai";
-    saveState(); renderTasks();
+    const t = tasks.find(x => x.id === toggleId);
+    await db.collection("tasks").doc(toggleId).update({ status: t.status === "selesai" ? "berjalan" : "selesai" });
   }
   if (delId){
-    state.tasks = state.tasks.filter(t => t.id !== delId);
-    saveState(); renderTasks();
+    await db.collection("tasks").doc(delId).delete();
   }
 });
 
@@ -391,7 +346,7 @@ document.getElementById("filterRow").addEventListener("click", (e) => {
 });
 
 /* =========================================================
-   DAFTAR SISWA
+   DAFTAR SISWA (statis, sesuai PRD — tidak perlu database)
    ========================================================= */
 function renderStudents(){
   const list = document.getElementById("studentList");
@@ -403,51 +358,63 @@ function renderStudents(){
     </div>
   `).join("");
 }
-function initials(name){
-  return name.split(" ").slice(0,2).map(w => w[0]).join("").toUpperCase();
-}
-function toTitleCase(str){
-  return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-}
+function initials(name){ return name.split(" ").slice(0,2).map(w => w[0]).join("").toUpperCase(); }
+function toTitleCase(str){ return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
 
 /* =========================================================
-   GALERI
+   FIRESTORE + STORAGE: GALERI  (collection: "gallery", file di Storage)
    ========================================================= */
+db.collection("gallery").orderBy("createdAt", "desc")
+  .onSnapshot((snap) => {
+    gallery = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderGallery();
+  }, () => showToast("Gagal memuat galeri: cek konfigurasi Firebase"));
+
 function renderGallery(){
   const grid = document.getElementById("galleryGrid");
-  if (!state.gallery.length){
+  if (!gallery.length){
     grid.innerHTML = `<div class="gallery-empty">Belum ada foto. Unggah momen kegiatan kelas pertama!</div>`;
     return;
   }
-  grid.innerHTML = state.gallery.map(g => `
+  grid.innerHTML = gallery.map(g => `
     <div class="gallery-item">
-      <img src="${g.src}" alt="Dokumentasi kelas">
-      <button class="gallery-remove" data-del-photo="${g.id}" title="Hapus">✕</button>
+      <img src="${g.url}" alt="Dokumentasi kelas" loading="lazy">
+      <button class="gallery-remove" data-del-photo="${g.id}" data-path="${escapeAttr(g.path || "")}" title="Hapus">✕</button>
     </div>
   `).join("");
 }
 
-document.getElementById("galleryInput").addEventListener("change", (e) => {
+document.getElementById("galleryInput").addEventListener("change", async (e) => {
   const files = Array.from(e.target.files || []);
   if (!files.length) return;
-  let pending = files.length;
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      state.gallery.push({ id: uid(), src: reader.result });
-      pending--;
-      if (pending === 0){ saveState(); renderGallery(); showToast("Foto berhasil diunggah"); }
-    };
-    reader.readAsDataURL(file);
-  });
+  showToast(`Mengunggah ${files.length} foto...`);
+  for (const file of files){
+    try{
+      const path = `gallery/${Date.now()}_${Math.random().toString(36).slice(2,8)}_${file.name}`;
+      const ref = storage.ref(path);
+      await ref.put(file);
+      const url = await ref.getDownloadURL();
+      await db.collection("gallery").add({
+        url, path,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }catch(err){
+      showToast("Gagal mengunggah salah satu foto. Cek konfigurasi Firebase Storage");
+    }
+  }
   e.target.value = "";
+  showToast("Unggah foto selesai");
 });
 
-document.getElementById("galleryGrid").addEventListener("click", (e) => {
-  const id = e.target.getAttribute("data-del-photo");
-  if (!id) return;
-  state.gallery = state.gallery.filter(g => g.id !== id);
-  saveState(); renderGallery();
+document.getElementById("galleryGrid").addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-del-photo]");
+  if (!btn) return;
+  const id = btn.getAttribute("data-del-photo");
+  const path = btn.getAttribute("data-path");
+  try{
+    if (path) await storage.ref(path).delete();
+    await db.collection("gallery").doc(id).delete();
+  }catch(e){ showToast("Gagal menghapus foto"); }
 });
 
 /* =========================================================
@@ -482,19 +449,12 @@ fabMenu.addEventListener("click", (e) => {
 });
 
 function escapeHTML(str = ""){
-  return str.replace(/[&<>"']/g, c => ({
+  return String(str).replace(/[&<>"']/g, c => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   }[c]));
 }
 function escapeAttr(str = ""){ return escapeHTML(str); }
 
-/* ===== Init ===== */
-function init(){
-  renderAnnouncements();
-  renderScheduleTabs();
-  renderSchedule();
-  renderTasks();
-  renderStudents();
-  renderGallery();
-}
-init();
+/* ===== Init (bagian yang tidak butuh data cloud) ===== */
+renderScheduleTabs();
+renderStudents();
