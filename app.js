@@ -15,7 +15,7 @@
 const TEACHER = {
   name: "Sugeng Riyadi, S.Kom., Gr.",
   role: "Wali Kelas",
-  photo: "paksugeng.png"
+  photo: "paksugeng.png",
 };
 
 const STUDENTS = [
@@ -44,19 +44,19 @@ const STUDENTS = [
    ========================================================= */
 const SCHEDULE = {
   Senin: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+    { time: "07.00–08.20", subject: "Contoh Jadwal },
   ],
   Selasa: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+    { time: "07.00–08.20", subject: "Contoh Jadwal },
   ],
   Rabu: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+    { time: "07.00–08.20", subject: "Contoh Jadwal },
   ],
   Kamis: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+    { time: "07.00–08.20", subject: "Contoh Jadwal },
   ],
   Jumat: [
-    { time: "07.00–08.20", subject: "Contoh Jadwal" },
+    { time: "07.00–08.20", subject: "Contoh Jadwal },
   ],
 };
 
@@ -350,9 +350,9 @@ function renderStudents(){
   const list = document.getElementById("studentList");
   list.innerHTML = STUDENTS.map((s, i) => `
     <div class="student-item">
-      <span class="avatar" style="width:64px;height:64px;font-size:1.05rem;">
+      <span class="avatar-wrap">
         <span class="student-no">${i + 1}</span>
-        ${avatarInnerHTML(s.name, s.photo)}
+        <span class="avatar">${avatarInnerHTML(s.name, s.photo)}</span>
       </span>
       <span class="student-name">${escapeHTML(toTitleCase(s.name))}</span>
     </div>
