@@ -87,9 +87,9 @@
           <p class="eyebrow">Senin – Jumat</p>
           <h2>Jadwal Pelajaran</h2>
         </div>
-        <button class="btn btn-secondary" id="btnResetJadwal">Atur Ulang</button>
+        <button class="btn btn-primary" id="btnAddSchedule">+ Tambah Jam Pelajaran</button>
       </div>
-      <p class="section-desc">Klik ikon pensil pada setiap sel untuk mengubah mata pelajaran atau jam — perubahan langsung tersimpan.</p>
+      <p class="section-desc">Jadwal masih kosong dan bisa diisi bersama-sama. Klik ikon pensil pada tiap baris untuk mengubah, atau tombol di atas untuk menambah baris baru — perubahan langsung tersimpan dan terlihat oleh semua orang.</p>
 
       <div class="schedule-tabs" id="scheduleTabs"></div>
       <div class="schedule-wrap" id="scheduleWrap"></div>
@@ -185,6 +185,11 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- Firebase (compat SDK, mudah dipakai tanpa build tool) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
