@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>7 Bilal bin Rabbah | SMP Islam Bunga Bangsa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "outline": "#72796e",
+                    "primary": "#154212",
+                    "on-surface": "#1b1c1c",
+                    "tertiary-fixed-dim": "#c9c6c0",
+                    "primary-fixed": "#bcf0ae",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#3a3935",
+                    "surface-tint": "#3b6934",
+                    "on-primary-container": "#9dd090",
+                    "inverse-primary": "#a1d494",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#735c00",
+                    "error": "#ba1a1a",
+                    "surface-container": "#efeded",
+                    "surface-container-high": "#eae8e7",
+                    "background": "#fbf9f8",
+                    "surface-bright": "#fbf9f8",
+                    "outline-variant": "#c2c9bb",
+                    "surface-variant": "#e4e2e2",
+                    "on-secondary-container": "#745c00",
+                    "on-tertiary-fixed-variant": "#474742",
+                    "surface": "#fbf9f8",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-primary-fixed": "#002201",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffe088",
+                    "on-primary-fixed-variant": "#23501e",
+                    "on-secondary-fixed": "#241a00",
+                    "on-surface-variant": "#42493e",
+                    "on-tertiary-fixed": "#1c1c18",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container-low": "#f5f3f3",
+                    "on-tertiary-container": "#c5c2bc",
+                    "tertiary-fixed": "#e5e2db",
+                    "primary-container": "#2d5a27",
+                    "surface-dim": "#dbd9d9",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#574500",
+                    "secondary-container": "#fed65b",
+                    "inverse-surface": "#303030",
+                    "on-background": "#1b1c1c",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#51504b",
+                    "primary-fixed-dim": "#a1d494"
+                },
+                borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                spacing: { unit: "8px", "margin-mobile": "16px", gutter: "24px", "container-max": "1200px", "margin-desktop": "48px" },
+                fontFamily: {
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Manrope"],
+                    "label-md": ["Manrope"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Manrope"]
+                },
+                fontSize: {
+                    "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                    "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                    "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                    "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                    "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600" }],
+                    "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                    "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body { background-color: #fbf9f8; font-family: 'Manrope', sans-serif; color: #1b1c1c; }
+    html.dark body { background-color: #14150f; color: #f2f0f0; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .islamic-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.5 7.5L40 10l-7.5 2.5L30 20l-2.5-7.5L20 10l7.5-2.5L30 0zM0 30l2.5 7.5L10 40l-7.5 2.5L0 50l-2.5-7.5L-10 40l7.5-2.5L0 30zM60 30l2.5 7.5L70 40l-7.5 2.5L60 50l-2.5-7.5L50 40l7.5-2.5L60 30z' fill='%23154212' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    .student-card:hover .student-number { background-color: #154212; color: white; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        * { scroll-behavior: auto !important; }
+    }
+    .modal-backdrop { backdrop-filter: blur(4px); }
+    dialog::backdrop { background: rgba(20, 24, 16, 0.45); backdrop-filter: blur(2px); }
+    dialog { border: none; padding: 0; background: transparent; }
+</style>
+</head>
+<body class="bg-surface dark:bg-[#14150f] selection:bg-primary-fixed-dim selection:text-on-primary-fixed transition-colors duration-300">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] bg-primary text-white px-4 py-2 rounded-lg">Lompat ke konten</a>
+
+<!-- TopAppBar -->
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 bg-surface/95 dark:bg-[#14150f]/95 border-b border-outline-variant transition-colors">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">7 Bilal bin Rabbah</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 transition-colors" href="#hero">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#about">Tentang</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#students">Siswa</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#schedule">Jadwal</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#gallery">Galeri</a>
+</nav>
+<div class="flex items-center gap-2 md:gap-4">
+<button id="search-open" aria-label="Cari siswa" class="material-symbols-outlined p-2 text-on-surface-variant dark:text-tertiary-fixed-dim hover:bg-surface-container dark:hover:bg-white/10 rounded-full transition-colors">search</button>
+<button id="theme-toggle" aria-label="Ganti tema gelap/terang" class="material-symbols-outlined p-2 text-on-surface-variant dark:text-tertiary-fixed-dim hover:bg-surface-container dark:hover:bg-white/10 rounded-full transition-colors">dark_mode</button>
+<button id="contact-open" class="hidden md:block bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity">Contact Us</button>
+<button id="mobile-menu-toggle" aria-label="Buka menu" aria-expanded="false" class="md:hidden material-symbols-outlined p-2 text-on-surface-variant dark:text-tertiary-fixed-dim">menu</button>
+</div>
+</div>
+<nav id="mobile-nav" class="hidden md:hidden flex-col gap-1 px-margin-mobile pb-4 bg-surface dark:bg-[#14150f] border-t border-outline-variant">
+<a class="block py-3 font-label-md text-label-md text-primary dark:text-primary-fixed-dim" href="#hero">Home</a>
+<a class="block py-3 font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim" href="#about">Tentang</a>
+<a class="block py-3 font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim" href="#students">Siswa</a>
+<a class="block py-3 font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim" href="#schedule">Jadwal</a>
+<a class="block py-3 font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim" href="#gallery">Galeri</a>
+<button id="contact-open-mobile" class="mt-2 bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full">Contact Us</button>
+</nav>
+</header>
+
+<!-- Search overlay -->
+<div id="search-overlay" class="hidden fixed inset-0 z-[60] modal-backdrop bg-black/30 items-start justify-center pt-28 px-4">
+<div class="w-full max-w-xl bg-surface-container-lowest dark:bg-[#1e2018] rounded-2xl shadow-2xl border border-outline-variant overflow-hidden">
+<div class="flex items-center gap-3 px-5 py-4 border-b border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-tertiary-fixed-dim">search</span>
+<input id="search-input" type="text" placeholder="Cari nama siswa..." class="flex-1 bg-transparent outline-none font-body-md text-body-md text-on-surface dark:text-inverse-on-surface placeholder:text-on-surface-variant"/>
+<button id="search-close" aria-label="Tutup pencarian" class="material-symbols-outlined text-on-surface-variant dark:text-tertiary-fixed-dim">close</button>
+</div>
+<div id="search-results" class="max-h-80 overflow-y-auto divide-y divide-outline-variant/50"></div>
+</div>
+</div>
+
+<main id="main" class="pt-24">
+
+<!-- Hero -->
+<section id="hero" class="relative overflow-hidden py-20 md:py-32 bg-surface-container-low dark:bg-[#1a1c14] islamic-pattern">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center relative z-10">
+<span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary-fixed text-on-primary-fixed font-label-md text-label-md uppercase tracking-wider">Tahun Ajaran 2024/2025</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface dark:text-inverse-on-surface mb-6 max-w-3xl mx-auto leading-tight">
+    Selamat Datang di Kelas <span class="text-primary dark:text-primary-fixed-dim italic">7 Bilal bin Rabbah</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant dark:text-tertiary-fixed-dim mb-10 max-w-2xl mx-auto">
+    Ruang digital bagi komunitas pembelajar kami yang penuh semangat, membangun keunggulan akademik dan pertumbuhan spiritual di bawah bimbingan SMP Islam Bunga Bangsa.
+</p>
+<div class="flex flex-wrap justify-center gap-4">
+<a class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/10 flex items-center gap-2 hover:-translate-y-1 transition-transform" href="#students">
+    Lihat Daftar Siswa <span class="material-symbols-outlined">group</span>
+</a>
+<button id="portal-open" class="border-2 border-primary text-primary dark:text-primary-fixed-dim dark:border-primary-fixed-dim px-8 py-4 rounded-xl font-label-md text-label-md flex items-center gap-2 hover:bg-primary/5 transition-colors">
+    Class Portal <span class="material-symbols-outlined">login</span>
+</button>
+</div>
+</div>
+<div class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="absolute -left-20 -top-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+</section>
+
+<!-- Teacher -->
+<section class="py-24 bg-surface dark:bg-[#14150f] reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row items-center gap-16">
+<div class="w-full md:w-1/2 relative">
+<div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl relative group">
+<img class="w-full h-full object-cover" alt="Potret wali kelas Sugeng Riyadi mengenakan batik di ruang kelas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPOHOnalXsFwfeTmyACgtsAavgUm7RXNuWub1loBkEdPI2T1In3u-i_Hw9P1-blFplT7t_DmetZqrHcxdDd8Uuwo4wH3QfHdwpJfdOJszmQ_BcJgs2zB1EQOmeL1k6qhE4x0bGAk8YzlqOmzZMMfe2w-g2HRWC_Gu4qbqpsE28pUoT7GusLd9DHFBjsPz4VMKUO5QOpyLKLspFLcp4EFmK2Rn9DPJzqn0pg2CfmW_aqLnaiMqKlTdK"/>
+<div class="absolute inset-0 border-8 border-white/20 pointer-events-none rounded-3xl"></div>
+</div>
+<div class="absolute -bottom-6 -right-6 bg-secondary-container p-6 rounded-2xl shadow-xl border-4 border-surface dark:border-[#14150f] hidden md:block">
+<p class="font-headline-md text-headline-md text-on-secondary-container">10+ Tahun</p>
+<p class="font-label-md text-label-md text-on-secondary-container opacity-80 uppercase">Pengalaman</p>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-widest mb-4">
+<span class="h-px w-8 bg-secondary"></span> Wali Kelas
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-6 dark:text-inverse-on-surface">Sugeng Riyadi, S.Kom., Gr.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim mb-8 leading-relaxed">
+    "Pendidikan bukan hanya mengisi ember, tapi menyalakan api. Di kelas 7 Bilal bin Rabbah, kami membangun fondasi literasi teknologi dan akhlak islami yang akan berguna seumur hidup bagi para siswa."
+</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="p-4 rounded-xl bg-surface-container-low dark:bg-white/5 border border-outline-variant dark:border-white/10">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim mb-2">computer</span>
+<p class="font-label-md text-label-md font-bold mb-1 dark:text-inverse-on-surface">Bidang Keahlian</p>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim text-sm">Informatika &amp; Teknologi</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low dark:bg-white/5 border border-outline-variant dark:border-white/10">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim mb-2">mail</span>
+<p class="font-label-md text-label-md font-bold mb-1 dark:text-inverse-on-surface">Kontak Langsung</p>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim text-sm">sugeng.r@bungabangsa.sch.id</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- About / Vision & Mission -->
+<section id="about" class="py-24 bg-surface-container-low dark:bg-[#1a1c14] reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<div class="flex items-center justify-center gap-2 text-secondary font-label-md text-label-md uppercase tracking-widest mb-4">
+<span class="h-px w-8 bg-secondary"></span> Tentang Kelas <span class="h-px w-8 bg-secondary"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-4 dark:text-inverse-on-surface">Visi &amp; Misi</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim">
+    Konten visi, misi, dan nilai kelas akan segera ditambahkan di sini.
+</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-white dark:bg-white/5 border border-outline-variant dark:border-white/10 border-dashed rounded-2xl p-8 border-t-4 border-t-outline-variant flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-outline text-3xl mb-4 block">visibility</span>
+<h3 class="font-headline-md text-headline-md mb-2 dark:text-inverse-on-surface">Visi</h3>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim text-sm">Belum ada data</p>
+</div>
+<div class="bg-white dark:bg-white/5 border border-outline-variant dark:border-white/10 border-dashed rounded-2xl p-8 border-t-4 border-t-outline-variant flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-outline text-3xl mb-4 block">flag</span>
+<h3 class="font-headline-md text-headline-md mb-2 dark:text-inverse-on-surface">Misi</h3>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim text-sm">Belum ada data</p>
+</div>
+<div class="bg-white dark:bg-white/5 border border-outline-variant dark:border-white/10 border-dashed rounded-2xl p-8 border-t-4 border-t-outline-variant flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-outline text-3xl mb-4 block">diversity_3</span>
+<h3 class="font-headline-md text-headline-md mb-2 dark:text-inverse-on-surface">Nilai</h3>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim text-sm">Belum ada data</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Announcements -->
+<section id="announcements" class="py-24 bg-surface dark:bg-[#14150f] reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-3 dark:text-inverse-on-surface">Pengumuman Terbaru</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim max-w-xl">Kabar dan agenda terbaru seputar kelas 7 Bilal bin Rabbah.</p>
+</div>
+</div>
+<div class="border border-dashed border-outline-variant dark:border-white/10 rounded-2xl py-16 flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-outline text-4xl">campaign</span>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim">Belum ada pengumuman</p>
+</div>
+</div>
+</section>
+
+<!-- Students -->
+<section class="py-24 bg-surface-container-lowest dark:bg-[#1a1c14] reveal" id="students">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-4 dark:text-inverse-on-surface">Daftar Siswa</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim max-w-xl">
+    Kelas kami terdiri dari 16 siswa berbakat dan beragam, masing-masing memberi kontribusi unik dalam perjalanan belajar bersama.
+</p>
+</div>
+<div class="flex items-center gap-2 bg-surface-container dark:bg-white/5 p-1 rounded-lg">
+<button data-view="grid" class="view-btn px-4 py-2 bg-white dark:bg-white/10 shadow-sm rounded-md font-label-md text-label-md text-primary dark:text-primary-fixed-dim">Grid View</button>
+<button data-view="list" class="view-btn px-4 py-2 font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-on-surface transition-colors">List View</button>
+</div>
+</div>
+<div class="mb-8 relative max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">search</span>
+<input id="roster-filter" type="text" placeholder="Filter nama siswa..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest dark:bg-white/5 dark:text-inverse-on-surface font-body-md text-body-md outline-none focus:border-primary transition-colors"/>
+</div>
+<div class="grid grid-view grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter"></div>
+<div class="list-view flex-col divide-y divide-outline-variant border border-outline-variant rounded-2xl overflow-hidden bg-surface-container-lowest dark:bg-white/5" style="display:none"></div>
+<p id="no-results" class="hidden text-center py-12 text-on-surface-variant dark:text-tertiary-fixed-dim font-body-md">Tidak ada siswa yang cocok dengan pencarian.</p>
+</div>
+</section>
+
+<!-- Weekly schedule -->
+<section id="schedule" class="py-24 bg-surface dark:bg-[#14150f] reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="mb-12">
+<h2 class="font-headline-lg text-headline-lg mb-4 dark:text-inverse-on-surface">Jadwal Pelajaran Mingguan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim max-w-xl">Jadwal pelajaran akan segera ditambahkan di sini.</p>
+</div>
+<div class="border border-dashed border-outline-variant dark:border-white/10 rounded-2xl py-16 flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-outline text-4xl">calendar_month</span>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim">Belum ada jadwal</p>
+</div>
+</div>
+</section>
+
+<!-- Gallery (illustrative, non-photographic) -->
+<section id="gallery" class="py-24 bg-surface-container-low dark:bg-[#1a1c14] reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="mb-12">
+<h2 class="font-headline-lg text-headline-lg mb-4 dark:text-inverse-on-surface">Galeri Kegiatan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim max-w-xl">Sekilas momen dan kegiatan kelas sepanjang tahun ajaran.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="aspect-square rounded-2xl bg-primary-container flex flex-col items-center justify-center gap-3 text-on-primary-container p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">menu_book</span>
+<p class="font-label-md text-label-md">Tahfidz Pagi</p>
+</div>
+<div class="aspect-square rounded-2xl bg-secondary-container flex flex-col items-center justify-center gap-3 text-on-secondary-container p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">sports_soccer</span>
+<p class="font-label-md text-label-md">Olahraga</p>
+</div>
+<div class="aspect-square rounded-2xl bg-tertiary-container flex flex-col items-center justify-center gap-3 text-on-tertiary-container p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">science</span>
+<p class="font-label-md text-label-md">Praktikum IPA</p>
+</div>
+<div class="aspect-square rounded-2xl bg-primary-fixed flex flex-col items-center justify-center gap-3 text-on-primary-fixed p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">palette</span>
+<p class="font-label-md text-label-md">Seni Budaya</p>
+</div>
+<div class="aspect-square rounded-2xl bg-tertiary-fixed flex flex-col items-center justify-center gap-3 text-on-tertiary-fixed p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">groups</span>
+<p class="font-label-md text-label-md">Kerja Kelompok</p>
+</div>
+<div class="aspect-square rounded-2xl bg-secondary-fixed flex flex-col items-center justify-center gap-3 text-on-secondary-fixed p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">museum</span>
+<p class="font-label-md text-label-md">Kunjungan Museum</p>
+</div>
+<div class="aspect-square rounded-2xl bg-primary-container flex flex-col items-center justify-center gap-3 text-on-primary-container p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">computer</span>
+<p class="font-label-md text-label-md">Kelas Informatika</p>
+</div>
+<div class="aspect-square rounded-2xl bg-surface-container-highest dark:bg-white/10 flex flex-col items-center justify-center gap-3 text-on-surface dark:text-inverse-on-surface p-4 text-center hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-4xl">celebration</span>
+<p class="font-label-md text-label-md">Perayaan Kelas</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Stats -->
+<section class="py-12 bg-primary reveal">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+<div><p class="font-headline-xl text-headline-xl text-on-primary" data-count="16">0</p><p class="font-label-md text-label-md text-on-primary-container uppercase tracking-widest">Total Siswa</p></div>
+<div><p class="font-headline-xl text-headline-xl text-on-primary" data-count="100" data-suffix="%">0</p><p class="font-label-md text-label-md text-on-primary-container uppercase tracking-widest">Digital Ready</p></div>
+<div><p class="font-headline-xl text-headline-xl text-on-primary" data-count="24">0</p><p class="font-label-md text-label-md text-on-primary-container uppercase tracking-widest">Pelajaran / Minggu</p></div>
+<div><p class="font-headline-xl text-headline-xl text-on-primary" data-count="1" data-pad="2">0</p><p class="font-label-md text-label-md text-on-primary-container uppercase tracking-widest">Komunitas Kuat</p></div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-[#1a1c14] border-t border-outline-variant dark:border-white/10">
+<div class="w-full px-margin-mobile md:px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-2 gap-gutter max-w-container-max mx-auto">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">SMP Islam Bunga Bangsa</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim max-w-md mb-8">
+    Lembaga pendidikan yang berkomitmen menumbuhkan nilai-nilai Islami dan keunggulan akademik dalam hati dan pikiran generasi mendatang.
+</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white dark:bg-white/10 border border-outline-variant dark:border-white/10 flex items-center justify-center text-primary dark:text-primary-fixed-dim hover:bg-primary hover:text-white transition-all" href="#" aria-label="Website"><span class="material-symbols-outlined text-xl">language</span></a>
+<a class="w-10 h-10 rounded-full bg-white dark:bg-white/10 border border-outline-variant dark:border-white/10 flex items-center justify-center text-primary dark:text-primary-fixed-dim hover:bg-primary hover:text-white transition-all" href="#" aria-label="Bagikan"><span class="material-symbols-outlined text-xl">share</span></a>
+<a class="w-10 h-10 rounded-full bg-white dark:bg-white/10 border border-outline-variant dark:border-white/10 flex items-center justify-center text-primary dark:text-primary-fixed-dim hover:bg-primary hover:text-white transition-all" href="mailto:sugeng.r@bungabangsa.sch.id" aria-label="Email"><span class="material-symbols-outlined text-xl">mail</span></a>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<h4 class="font-label-md text-label-md font-bold mb-6 text-on-surface dark:text-inverse-on-surface uppercase tracking-wider">Tautan Cepat</h4>
+<ul class="space-y-4">
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary hover:underline transition-all" href="#about">Tentang Kelas</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary hover:underline transition-all" href="#schedule">Jadwal Pelajaran</a></li>
+<li><button id="portal-open-footer" class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary hover:underline transition-all text-left">School Portal</button></li>
+<li><button id="staff-login-open" class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary hover:underline transition-all text-left">Staff Login</button></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold mb-6 text-on-surface dark:text-inverse-on-surface uppercase tracking-wider">Kontak</h4>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim mb-2">Jl. DI. Panjaitan No. 51</p>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim mb-6">Samarinda, Kalimantan Timur</p>
+<p class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim font-bold">+62 123-4567-890</p>
+</div>
+</div>
+</div>
+<div class="w-full px-margin-mobile md:px-margin-desktop py-8 border-t border-outline-variant/30 dark:border-white/10 max-w-container-max mx-auto text-center md:text-left">
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-tertiary-fixed-dim opacity-70">© 2026 SMP Islam Bunga Bangsa - Kelas 7 Bilal bin Rabbah. All rights reserved.</p>
+</div>
+</footer>
+
+<!-- Contact modal -->
+<dialog id="contact-modal" class="rounded-2xl w-full max-w-md">
+<form method="dialog" class="bg-surface-container-lowest dark:bg-[#1e2018] rounded-2xl shadow-2xl border border-outline-variant p-6" id="contact-form">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md dark:text-inverse-on-surface">Hubungi Kami</h3>
+<button type="button" class="modal-close material-symbols-outlined text-on-surface-variant" data-target="contact-modal">close</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="font-label-md text-label-md block mb-1 dark:text-inverse-on-surface">Nama</label>
+<input required type="text" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+</div>
+<div>
+<label class="font-label-md text-label-md block mb-1 dark:text-inverse-on-surface">Email</label>
+<input required type="email" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+</div>
+<div>
+<label class="font-label-md text-label-md block mb-1 dark:text-inverse-on-surface">Pesan</label>
+<textarea required rows="3" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"></textarea>
+</div>
+</div>
+<div id="contact-success" class="hidden mt-4 text-sm text-primary dark:text-primary-fixed-dim font-label-md">Pesan terkirim! Kami akan segera membalas.</div>
+<button type="submit" class="mt-6 w-full bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">Kirim Pesan</button>
+</form>
+</dialog>
+
+<!-- Class portal login modal -->
+<dialog id="portal-modal" class="rounded-2xl w-full max-w-sm">
+<div class="bg-surface-container-lowest dark:bg-[#1e2018] rounded-2xl shadow-2xl border border-outline-variant p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md dark:text-inverse-on-surface">Class Portal</h3>
+<button type="button" class="modal-close material-symbols-outlined text-on-surface-variant" data-target="portal-modal">close</button>
+</div>
+<p class="text-sm text-on-surface-variant dark:text-tertiary-fixed-dim mb-4">Portal demo untuk siswa &amp; orang tua. Hubungi wali kelas untuk akses akun.</p>
+<div class="space-y-3">
+<input type="text" placeholder="Username / NISN" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+<input type="password" placeholder="Password" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+</div>
+<button id="portal-submit" class="mt-6 w-full bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">Masuk</button>
+</div>
+</dialog>
+
+<!-- Staff login modal -->
+<dialog id="staff-modal" class="rounded-2xl w-full max-w-sm">
+<div class="bg-surface-container-lowest dark:bg-[#1e2018] rounded-2xl shadow-2xl border border-outline-variant p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md dark:text-inverse-on-surface">Staff Login</h3>
+<button type="button" class="modal-close material-symbols-outlined text-on-surface-variant" data-target="staff-modal">close</button>
+</div>
+<p class="text-sm text-on-surface-variant dark:text-tertiary-fixed-dim mb-4">Khusus untuk wali kelas dan staf sekolah.</p>
+<div class="space-y-3">
+<input type="email" placeholder="Email staf" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+<input type="password" placeholder="Password" class="w-full px-3 py-2 rounded-lg border border-outline-variant bg-transparent dark:text-inverse-on-surface outline-none focus:border-primary"/>
+</div>
+<button class="mt-6 w-full bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">Masuk</button>
+</div>
+</dialog>
+
+<!-- Student detail modal -->
+<dialog id="student-modal" class="rounded-2xl w-full max-w-sm">
+<div class="bg-surface-container-lowest dark:bg-[#1e2018] rounded-2xl shadow-2xl border border-outline-variant p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md dark:text-inverse-on-surface">Detail Siswa</h3>
+<button type="button" class="modal-close material-symbols-outlined text-on-surface-variant" data-target="student-modal">close</button>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div id="student-modal-number" class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center font-headline-md text-headline-md"></div>
+<div>
+<p id="student-modal-name" class="font-label-md text-label-md font-bold dark:text-inverse-on-surface"></p>
+<p class="text-xs text-on-surface-variant dark:text-tertiary-fixed-dim uppercase tracking-widest">Kelas 7-B</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold rounded uppercase">Active</span>
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded uppercase">Core Group</span>
+</div>
+</div>
+</dialog>
+
+<script>
+    const students = [
+        "Chaerul Risyad Ferdiansyah", "Ahmad Abdullah Hafi Munaji", "Ahmad Faeyza Rafa", "Al Ghazali Fahran",
+        "Alkhaliifi Hasyimi", "Almer Abrisam Dzaky Noor", "Faalih Arkaan", "Hafidz Alfatih Hermanto",
+        "Handanu Indrafaza Styawan", "Muhammad Abdurrahman Dzaki", "Muhammad Alfindra Auvar Rahardja", "Muhammad Asyraf Al Farisi",
+        "Muhammad El Junot Razqal", "Muhammad Faqih Ramadhan", "Muhammad Hafidz Setiadi", "Muhammad Zharif Syatir"
+    ];
+
+    const gridWrap = document.querySelector('#students .grid-view');
+    const listWrap = document.querySelector('#students .list-view');
+    const noResults = document.getElementById('no-results');
+
+    function openStudentModal(index, name) {
+        document.getElementById('student-modal-number').textContent = index + 1;
+        document.getElementById('student-modal-name').textContent = name;
+        document.getElementById('student-modal').showModal();
+    }
+
+    function buildRoster() {
+        students.forEach((name, index) => {
+            const card = document.createElement('div');
+            card.className = "student-card group bg-surface border border-outline-variant dark:border-white/10 dark:bg-white/5 rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative";
+            card.dataset.name = name.toLowerCase();
+            card.innerHTML = `
+                <div class="h-32 bg-surface-container-high dark:bg-white/10 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 islamic-pattern"></div>
+                    <div class="absolute bottom-0 left-6 translate-y-1/2 w-16 h-16 rounded-full border-4 border-surface dark:border-[#1a1c14] bg-white shadow-md flex items-center justify-center font-headline-md text-headline-md text-primary student-number transition-colors">
+                        ${index + 1}
+                    </div>
+                </div>
+                <div class="pt-10 pb-6 px-6">
+                    <h3 class="font-label-md text-label-md font-bold text-on-surface dark:text-inverse-on-surface mb-2 leading-tight">${name}</h3>
+                    <p class="text-xs text-on-surface-variant dark:text-tertiary-fixed-dim uppercase tracking-widest font-semibold mb-4">Siswa Kelas 7-B</p>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold rounded uppercase">Active</span>
+                        <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded uppercase">Core Group</span>
+                    </div>
+                </div>
+                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button aria-label="Lihat detail ${name}" class="view-student material-symbols-outlined text-primary bg-white/90 p-1.5 rounded-lg shadow-sm">visibility</button>
+                </div>`;
+            card.querySelector('.view-student').addEventListener('click', () => openStudentModal(index, name));
+            gridWrap.appendChild(card);
+
+            const row = document.createElement('div');
+            row.className = "list-row flex items-center gap-4 px-6 py-4 hover:bg-surface-container-low dark:hover:bg-white/10 transition-colors";
+            row.dataset.name = name.toLowerCase();
+            row.innerHTML = `
+                <div class="w-10 h-10 rounded-full bg-primary/10 text-primary dark:text-primary-fixed-dim flex items-center justify-center font-label-md text-label-md font-bold shrink-0">${index + 1}</div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-label-md text-label-md font-bold text-on-surface dark:text-inverse-on-surface truncate">${name}</p>
+                    <p class="text-xs text-on-surface-variant dark:text-tertiary-fixed-dim uppercase tracking-widest">Siswa Kelas 7-B</p>
+                </div>
+                <span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold rounded uppercase hidden sm:inline">Active</span>
+                <button aria-label="Lihat detail ${name}" class="view-student material-symbols-outlined text-primary dark:text-primary-fixed-dim">visibility</button>`;
+            row.querySelector('.view-student').addEventListener('click', () => openStudentModal(index, name));
+            listWrap.appendChild(row);
+        });
+    }
+    buildRoster();
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('bg-white','shadow-sm','text-primary'));
+            btn.classList.add('bg-white','shadow-sm','text-primary');
+            const view = btn.dataset.view;
+            if (view === 'grid') {
+                gridWrap.style.display = 'grid';
+                listWrap.style.display = 'none';
+            } else {
+                gridWrap.style.display = 'none';
+                listWrap.style.display = 'flex';
+            }
+        });
+    });
+
+    document.getElementById('roster-filter').addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        let visibleCount = 0;
+        gridWrap.querySelectorAll('.student-card').forEach(card => {
+            const match = card.dataset.name.includes(q);
+            card.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+        listWrap.querySelectorAll('.list-row').forEach(row => {
+            const match = row.dataset.name.includes(q);
+            row.style.display = match ? 'flex' : 'none';
+        });
+        noResults.classList.toggle('hidden', visibleCount !== 0);
+    });
+
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    function renderSearch(q) {
+        searchResults.innerHTML = '';
+        if (!q) return;
+        const matches = students.filter(n => n.toLowerCase().includes(q.toLowerCase()));
+        if (matches.length === 0) {
+            searchResults.innerHTML = `<p class="px-5 py-4 text-sm text-on-surface-variant dark:text-tertiary-fixed-dim">Tidak ditemukan.</p>`;
+            return;
+        }
+        matches.slice(0, 8).forEach(name => {
+            const idx = students.indexOf(name);
+            const item = document.createElement('button');
+            item.className = "w-full text-left px-5 py-3 hover:bg-surface-container-low dark:hover:bg-white/10 flex items-center gap-3";
+            item.innerHTML = `<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">person</span><span class="font-body-md text-body-md dark:text-inverse-on-surface">${name}</span>`;
+            item.addEventListener('click', () => {
+                closeSearch();
+                document.getElementById('students').scrollIntoView({behavior:'smooth'});
+                setTimeout(() => openStudentModal(idx, name), 400);
+            });
+            searchResults.appendChild(item);
+        });
+    }
+    function openSearch() {
+        searchOverlay.classList.remove('hidden');
+        searchOverlay.classList.add('flex');
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+        searchInput.focus();
+    }
+    function closeSearch() {
+        searchOverlay.classList.add('hidden');
+        searchOverlay.classList.remove('flex');
+    }
+    document.getElementById('search-open').addEventListener('click', openSearch);
+    document.getElementById('search-close').addEventListener('click', closeSearch);
+    searchOverlay.addEventListener('click', (e) => { if (e.target === searchOverlay) closeSearch(); });
+    searchInput.addEventListener('input', (e) => renderSearch(e.target.value));
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); openSearch(); }
+        if (e.key === 'Escape') closeSearch();
+    });
+
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    mobileToggle.addEventListener('click', () => {
+        const isHidden = mobileNav.classList.toggle('hidden');
+        mobileNav.classList.toggle('flex', !isHidden);
+        mobileToggle.textContent = isHidden ? 'menu' : 'close';
+        mobileToggle.setAttribute('aria-expanded', String(!isHidden));
+    });
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        mobileNav.classList.add('hidden'); mobileNav.classList.remove('flex');
+        mobileToggle.textContent = 'menu';
+    }));
+
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        themeToggle.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+    });
+
+    function wireModal(openId, modalId) {
+        const openBtn = document.getElementById(openId);
+        if (openBtn) openBtn.addEventListener('click', () => document.getElementById(modalId).showModal());
+    }
+    wireModal('contact-open', 'contact-modal');
+    wireModal('contact-open-mobile', 'contact-modal');
+    wireModal('portal-open', 'portal-modal');
+    wireModal('portal-open-footer', 'portal-modal');
+    wireModal('staff-login-open', 'staff-modal');
+
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => document.getElementById(btn.dataset.target).close());
+    });
+    document.querySelectorAll('dialog').forEach(dialog => {
+        dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        document.getElementById('contact-success').classList.remove('hidden');
+        setTimeout(() => { document.getElementById('contact-modal').close(); document.getElementById('contact-success').classList.add('hidden'); e.target.reset(); }, 1400);
+    });
+
+    document.getElementById('portal-submit').addEventListener('click', () => {
+        alert('Ini demo tampilan. Hubungi wali kelas untuk kredensial akun sesungguhnya.');
+    });
+
+    const counters = document.querySelectorAll('[data-count]');
+    const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.dataset.count, 10);
+            const suffix = el.dataset.suffix || '';
+            const pad = parseInt(el.dataset.pad || '0', 10);
+            let current = 0;
+            const step = Math.max(1, Math.ceil(target / 40));
+            const tick = () => {
+                current = Math.min(target, current + step);
+                el.textContent = String(current).padStart(pad, '0') + suffix;
+                if (current < target) requestAnimationFrame(tick); else el.textContent = String(target).padStart(pad, '0') + suffix;
+            };
+            tick();
+            countObserver.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(c => countObserver.observe(c));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('site-header');
+        if (window.scrollY > 20) header.classList.add('shadow-md'); else header.classList.remove('shadow-md');
+    });
+</script>
+</body>
+</html>
