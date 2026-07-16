@@ -12,6 +12,23 @@
    link https://...). Kosongkan ("") kalau belum ada foto —
    otomatis akan ditampilkan inisial nama sebagai gantinya.
    ========================================================= */
+/* =========================================================
+   ICON / LOGO KELAS — DIATUR LEWAT SCRIPT INI SAJA
+   Isi dengan nama file logo yang sudah Anda unggah ke folder yang
+   sama dengan index.html (contoh: "logo-kelas.png"). Kosongkan ("")
+   kalau belum ada logo — otomatis tampil tulisan "VII" sebagai gantinya.
+   Untuk favicon (ikon tab browser), ubah juga baris
+   <link rel="icon" ...> di index.html supaya nama filenya sama.
+   ========================================================= */
+const CLASS_ICON = "logo-kelas.png";
+
+function renderBrandBadge(){
+  const el = document.getElementById("brandBadge");
+  if (CLASS_ICON && CLASS_ICON.trim()){
+    el.innerHTML = `<img src="${CLASS_ICON}" alt="Logo Kelas VII Bilal bin Rabbah" onerror="this.parentElement.textContent='VII'">`;
+  }
+}
+
 const TEACHER = {
   name: "Sugeng Riyadi, S.Kom., Gr.",
   role: "Wali Kelas",
@@ -503,3 +520,4 @@ renderScheduleTabs();
 renderSchedule();
 renderTeacher();
 renderStudents();
+renderBrandBadge();
