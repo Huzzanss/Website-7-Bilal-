@@ -122,13 +122,15 @@ document.getElementById("modalClose").addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", (e) => { if (e.target === modalBackdrop) closeModal(); });
 
 /* =========================================================
-   FIRESTORE: PENGUMUMAN  (collection: "announcements")
+   REALTIME DATABASE: PENGUMUMAN  (path: "announcements")
    ========================================================= */
-db.collection("announcements").orderBy("createdAt", "desc")
-  .onSnapshot((snap) => {
-    announcements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderAnnouncements();
-  }, () => showToast("Gagal memuat pengumuman: cek konfigurasi Firebase"));
+db.ref("announcements").on("value", (snap) => {
+  const val = snap.val() || {};
+  announcements = Object.entries(val)
+    .map(([id, data]) => ({ id, ...data }))
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  renderAnnouncements();
+}, () => showToast("Gagal memuat pengumuman: cek konfigurasi Firebase"));
 
 function renderAnnouncements(){
   const list = document.getElementById("announcementList");
@@ -171,9 +173,9 @@ function openAnnouncementForm(){
       const text = body.querySelector("#fBody").value.trim();
       if (!title){ showToast("Judul pengumuman wajib diisi"); return; }
       try{
-        await db.collection("announcements").add({
+        await db.ref("announcements").push({
           title, body: text, date: todayLabel(),
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
         });
         closeModal();
         showToast("Pengumuman berhasil ditambahkan");
@@ -185,7 +187,7 @@ function openAnnouncementForm(){
 document.getElementById("announcementList").addEventListener("click", async (e) => {
   const id = e.target.getAttribute("data-del-announcement");
   if (!id) return;
-  await db.collection("announcements").doc(id).delete();
+  await db.ref("announcements/" + id).remove();
 });
 document.getElementById("btnAddAnnouncement").addEventListener("click", openAnnouncementForm);
 
@@ -229,13 +231,15 @@ function renderSchedule(){
 }
 
 /* =========================================================
-   FIRESTORE: TUGAS & UJIAN  (collection: "tasks")
+   REALTIME DATABASE: TUGAS & UJIAN  (path: "tasks")
    ========================================================= */
-db.collection("tasks").orderBy("deadline", "asc")
-  .onSnapshot((snap) => {
-    tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderTasks();
-  }, () => showToast("Gagal memuat tugas: cek konfigurasi Firebase"));
+db.ref("tasks").on("value", (snap) => {
+  const val = snap.val() || {};
+  tasks = Object.entries(val)
+    .map(([id, data]) => ({ id, ...data }))
+    .sort((a, b) => (a.deadline || "").localeCompare(b.deadline || ""));
+  renderTasks();
+}, () => showToast("Gagal memuat tugas: cek konfigurasi Firebase"));
 
 function renderTasks(){
   const list = document.getElementById("taskList");
@@ -299,7 +303,7 @@ function openTaskForm(){
       const deadline = body.querySelector("#fDeadline").value;
       if (!subject || !title || !deadline){ showToast("Mata pelajaran, nama tugas, dan tenggat wajib diisi"); return; }
       try{
-        await db.collection("tasks").add({ subject, title, desc, deadline, status: "berjalan" });
+        await db.ref("tasks").push({ subject, title, desc, deadline, status: "berjalan" });
         closeModal();
         showToast("Tugas berhasil ditambahkan");
       }catch(e){ showToast("Gagal menyimpan. Cek konfigurasi Firebase"); }
@@ -312,10 +316,10 @@ document.getElementById("taskList").addEventListener("click", async (e) => {
   const delId = e.target.getAttribute("data-del-task");
   if (toggleId){
     const t = tasks.find(x => x.id === toggleId);
-    await db.collection("tasks").doc(toggleId).update({ status: t.status === "selesai" ? "berjalan" : "selesai" });
+    await db.ref("tasks/" + toggleId).update({ status: t.status === "selesai" ? "berjalan" : "selesai" });
   }
   if (delId){
-    await db.collection("tasks").doc(delId).delete();
+    await db.ref("tasks/" + delId).remove();
   }
 });
 
@@ -367,13 +371,16 @@ function initials(name){ return name.split(" ").slice(0,2).map(w => w[0]).join("
 function toTitleCase(str){ return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
 
 /* =========================================================
-   FIRESTORE + STORAGE: GALERI  (collection: "gallery", file di Storage)
+   REALTIME DATABASE: GALERI  (path: "gallery", foto disimpan
+   sebagai base64 langsung di database, tanpa Firebase Storage)
    ========================================================= */
-db.collection("gallery").orderBy("createdAt", "desc")
-  .onSnapshot((snap) => {
-    gallery = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderGallery();
-  }, () => showToast("Gagal memuat galeri: cek konfigurasi Firebase"));
+db.ref("gallery").on("value", (snap) => {
+  const val = snap.val() || {};
+  gallery = Object.entries(val)
+    .map(([id, data]) => ({ id, ...data }))
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  renderGallery();
+}, () => showToast("Gagal memuat galeri: cek konfigurasi Firebase"));
 
 function renderGallery(){
   const grid = document.getElementById("galleryGrid");
@@ -384,9 +391,40 @@ function renderGallery(){
   grid.innerHTML = gallery.map(g => `
     <div class="gallery-item">
       <img src="${g.url}" alt="Dokumentasi kelas" loading="lazy">
-      <button class="gallery-remove" data-del-photo="${g.id}" data-path="${escapeAttr(g.path || "")}" title="Hapus">${ICON_CLOSE}</button>
+      <button class="gallery-remove" data-del-photo="${g.id}" title="Hapus">${ICON_CLOSE}</button>
     </div>
   `).join("");
+}
+
+function fileToDataURL(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+const MAX_PHOTO_KB = 700; // batas ukuran per foto (setelah dikompres) supaya database tetap ringan
+
+function compressImage(file, maxWidth = 1000, quality = 0.72){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = () => { img.src = reader.result; };
+    reader.onerror = reject;
+    img.onload = () => {
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 document.getElementById("galleryInput").addEventListener("change", async (e) => {
@@ -395,16 +433,18 @@ document.getElementById("galleryInput").addEventListener("change", async (e) => 
   showToast(`Mengunggah ${files.length} foto...`);
   for (const file of files){
     try{
-      const path = `gallery/${Date.now()}_${Math.random().toString(36).slice(2,8)}_${file.name}`;
-      const ref = storage.ref(path);
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      await db.collection("gallery").add({
-        url, path,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      const dataUrl = await compressImage(file);
+      const sizeKb = Math.round((dataUrl.length * 0.75) / 1024);
+      if (sizeKb > MAX_PHOTO_KB * 3){
+        showToast(`${file.name} terlalu besar, dilewati`);
+        continue;
+      }
+      await db.ref("gallery").push({
+        url: dataUrl,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
       });
     }catch(err){
-      showToast("Gagal mengunggah salah satu foto. Cek konfigurasi Firebase Storage");
+      showToast("Gagal mengunggah salah satu foto");
     }
   }
   e.target.value = "";
@@ -415,10 +455,8 @@ document.getElementById("galleryGrid").addEventListener("click", async (e) => {
   const btn = e.target.closest("[data-del-photo]");
   if (!btn) return;
   const id = btn.getAttribute("data-del-photo");
-  const path = btn.getAttribute("data-path");
   try{
-    if (path) await storage.ref(path).delete();
-    await db.collection("gallery").doc(id).delete();
+    await db.ref("gallery/" + id).remove();
   }catch(e){ showToast("Gagal menghapus foto"); }
 });
 
