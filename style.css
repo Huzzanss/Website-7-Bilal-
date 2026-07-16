@@ -55,13 +55,20 @@ img{ max-width: 100%; display:block; }
 }
 
 .eyebrow{
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--secondary);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.eyebrow::before{
+  content: "";
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--tertiary);
+  flex-shrink: 0;
 }
 
 /* ===== Buttons ===== */
@@ -383,6 +390,18 @@ img{ max-width: 100%; display:block; }
   opacity:0; pointer-events:none; transition: all .25s ease; z-index:80;
 }
 .toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+/* ===== Icons (SVG, bukan emoji) ===== */
+svg{ display:block; }
+.icon svg{ width:1.15em; height:1.15em; vertical-align:-0.2em; }
+.quick-icon{ width:34px; height:34px; color: var(--primary); }
+.quick-icon svg{ width:100%; height:100%; }
+.icon-btn svg{ width:15px; height:15px; }
+.gallery-remove svg{ width:13px; height:13px; }
+.modal-close svg{ width:16px; height:16px; }
+.fab svg{ width:24px; height:24px; }
+.fab-menu button{ display:flex; align-items:center; gap:0.5rem; }
+.fab-menu button svg{ width:16px; height:16px; color: var(--secondary); flex-shrink:0; }
 
 /* ===== Responsive ===== */
 @media (max-width: 860px){
