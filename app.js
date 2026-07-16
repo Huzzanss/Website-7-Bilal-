@@ -62,6 +62,11 @@ const SCHEDULE = {
 
 const DAYS = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
 
+/* ===== Icon set (SVG, bukan emoji) ===== */
+const ICON_CLOSE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>`;
+const ICON_EDIT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 5.5 16 2.5 20.5 7 17.5 10.5"/><path d="M17.5 10.5 8 20H3.5v-4.5L13 6"/></svg>`;
+const ICON_REFRESH = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 0 1 14.6-5.9M20.5 12a8.5 8.5 0 0 1-14.6 5.9"/><path d="M17.5 3.5v3.4h-3.4M6.5 20.5v-3.4h3.4"/></svg>`;
+
 function todayLabel(){
   return new Date().toLocaleDateString("id-ID", { day:"numeric", month:"short", year:"numeric" });
 }
@@ -139,7 +144,7 @@ function renderAnnouncements(){
       </div>
       <div class="item-actions">
         <span class="a-date">${escapeHTML(a.date || "")}</span>
-        <button class="icon-btn" data-del-announcement="${a.id}" title="Hapus">✕</button>
+        <button class="icon-btn" data-del-announcement="${a.id}" title="Hapus">${ICON_CLOSE}</button>
       </div>
     </div>
   `).join("");
@@ -255,8 +260,8 @@ function renderTasks(){
           ${formatDate(t.deadline)} · ${t.status === "selesai" ? "Selesai" : daysLeftLabel(t.deadline)}
         </span>
         <div class="task-actions">
-          <button class="icon-btn" data-toggle="${t.id}" title="Tandai selesai/berjalan">🔁</button>
-          <button class="icon-btn" data-del-task="${t.id}" title="Hapus">✕</button>
+          <button class="icon-btn" data-toggle="${t.id}" title="Tandai selesai/berjalan">${ICON_REFRESH}</button>
+          <button class="icon-btn" data-del-task="${t.id}" title="Hapus">${ICON_CLOSE}</button>
         </div>
       </div>
     </div>
@@ -379,7 +384,7 @@ function renderGallery(){
   grid.innerHTML = gallery.map(g => `
     <div class="gallery-item">
       <img src="${g.url}" alt="Dokumentasi kelas" loading="lazy">
-      <button class="gallery-remove" data-del-photo="${g.id}" data-path="${escapeAttr(g.path || "")}" title="Hapus">✕</button>
+      <button class="gallery-remove" data-del-photo="${g.id}" data-path="${escapeAttr(g.path || "")}" title="Hapus">${ICON_CLOSE}</button>
     </div>
   `).join("");
 }
