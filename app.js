@@ -52,6 +52,8 @@ const STUDENTS = [
   { name: "Muhammad Faqih Ramadhan", photo: "" },
   { name: "Muhammad Hafidz Setiadi", photo: "" },
   { name: "Muhammad Zharif Syatir", photo: "" },
+  { name: "Muhammad Atha Alieudin Hamani", photo: "" },
+  { name: "Muhammad Azka Alieudin Kalani", photo: "" },
 ];
 
 /* =========================================================
